@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">homework-2018-09-17</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="email">email</string>
+    <string name="name">name</string>
+    <string name="number">number</string>
+    <string name="edit">edit</string>
+    <string name="send">send</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">cancel</string>
+</resources>
