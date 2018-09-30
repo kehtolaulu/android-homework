@@ -7,19 +7,25 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.Collection;
-import java.util.LinkedList;
 
 public class EditDialog extends DialogFragment {
     EditText etLogin;
     EditText etEmail;
     Listener listener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = ((Listener) context);
+        } catch (RuntimeException exception) {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener");
+        }
+    }
 
     @NonNull
     @Override
@@ -34,24 +40,14 @@ public class EditDialog extends DialogFragment {
                 .setPositiveButton("save", (dialog, which) -> {
                     String login = etLogin.getText().toString();
                     String email = etEmail.getText().toString();
-                    listener.mListener(login, email);
-                    ((Listener) getParentFragment()).mListener(login, email);
+                    listener.loginEmailRefreshListener(login, email);
+                    ((Listener) getParentFragment()).loginEmailRefreshListener(login, email);
                 })
                 .setNegativeButton("dismiss", (dialog, which) -> dismiss());
 
         return adb.show();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            listener = ((Listener) context);
-        } catch (RuntimeException exception) {
-            throw new RuntimeException(context.toString()
-                    + " must implement Listener");
-        }
-    }
 
     @Override
     public void onDetach() {
