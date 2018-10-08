@@ -19,9 +19,7 @@
             android:elevation="4dp"
             app:theme="@style/AppTheme.Toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
-            />
-
+            app:titleTextAppearance="@style/AppTheme.Toolbar.Title" />
 
     </android.support.design.widget.AppBarLayout>
     <include layout="@layout/content_item_post" />

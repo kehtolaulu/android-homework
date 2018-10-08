@@ -22,7 +22,6 @@ class ItemPostActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.post_title).text = PostsHelper.DataProviderManager.posts[position].title
 //        findViewById<ImageView>(R.id.post_img). = postsHelper.posts[position].img
         findViewById<TextView>(R.id.post_text).text = PostsHelper.DataProviderManager.posts[position].text
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -15,8 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
-        app:theme="@style/AppTheme.Toolbar"
-        />
+        app:theme="@style/AppTheme.Toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
