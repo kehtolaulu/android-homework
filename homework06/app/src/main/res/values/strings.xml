@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">homework06</string>
+    <string name="title_activity_wake_up">WakeUpActivity</string>
+    <string name="set_alarm">set alarm</string>
+    <string name="cancel">cancel</string>
+    <string name="set_timer">set timer</string>
+    <string name="cancel_timer">cancel timer</string>
+</resources>
