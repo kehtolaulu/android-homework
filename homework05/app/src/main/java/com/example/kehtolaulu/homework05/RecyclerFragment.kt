@@ -11,6 +11,7 @@ import android.widget.Toast
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.intellij.lang.annotations.Flow
 import org.reactivestreams.Subscription
@@ -73,7 +74,7 @@ class RecyclerFragment : Fragment() {
                 .map { s -> Student(s.name + s.name.length, s.age) }
                 .sorted { o1, o2 -> o1.name.compareTo(o2.name) }
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showLoading() }
                 .toList()
                 .doAfterTerminate { hideLoading() }
@@ -95,7 +96,7 @@ class RecyclerFragment : Fragment() {
                 .map { s -> Student(s.name + s.name.length, s.age) }
                 .sorted { o1, o2 -> o1.age.compareTo(o2.age) }
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showLoading() }
                 .toList()
                 .doAfterTerminate { hideLoading() }
