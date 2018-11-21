@@ -8,6 +8,13 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import org.intellij.lang.annotations.Flow
+import org.reactivestreams.Subscription
+import java.util.function.Consumer
 
 class RecyclerFragment : Fragment() {
     companion object {
@@ -34,7 +41,7 @@ class RecyclerFragment : Fragment() {
         studentsRecyclerView.layoutManager = LinearLayoutManager(context)
         diff = StudentListDiffCallback()
         studentAdapter = StudentAdapter(diff)
-        studentAdapter.submitList(StudentsHelper.list.toList().blockingGet())
+        studentAdapter.submitList(StudentsHelper.list)
         studentsRecyclerView.adapter = studentAdapter
         return view
     }
@@ -44,18 +51,54 @@ class RecyclerFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var students = StudentsHelper.list
         when (item.itemId) {
             R.id.item_sort_by_age -> {
-                studentAdapter.submitList(studentAdapter.sortByAge(progressBar))
+                sortByAge(students)
                 Toast.makeText(context, "Age sorting", Toast.LENGTH_SHORT)
                         .show()
             }
             R.id.item_sort_in_alph -> {
-                studentAdapter.submitList(studentAdapter.sortByAlpha(progressBar))
+                sortByAlpha(students)
                 Toast.makeText(context, "Alpha sorting", Toast.LENGTH_SHORT)
                         .show()
             }
         }
         return true
+    }
+
+    fun sortByAlpha(students: List<Student>) {
+        Flowable.fromIterable(students)
+                .take(12)
+                .map { s -> Student(s.name + s.name.length, s.age) }
+                .sorted { o1, o2 -> o1.name.compareTo(o2.name) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnSubscribe { showLoading() }
+                .toList()
+                .doAfterTerminate { hideLoading() }
+                .subscribe { students -> studentAdapter.submitList(students) }
+    }
+
+    private fun showLoading() {
+        progressBar.visibility = ProgressBar.VISIBLE;
+    }
+
+    private fun hideLoading() {
+        progressBar.visibility = ProgressBar.INVISIBLE;
+
+    }
+
+    fun sortByAge(students: List<Student>) {
+        Flowable.fromIterable(students)
+                .take(12)
+                .map { s -> Student(s.name + s.name.length, s.age) }
+                .sorted { o1, o2 -> o1.age.compareTo(o2.age) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnSubscribe { showLoading() }
+                .toList()
+                .doAfterTerminate { hideLoading() }
+                .subscribe { students -> studentAdapter.submitList(students) }
     }
 }

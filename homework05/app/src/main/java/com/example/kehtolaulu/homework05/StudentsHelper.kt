@@ -1,9 +1,10 @@
 package com.example.kehtolaulu.homework05
 
 import io.reactivex.Observable
+import java.util.*
 
 object StudentsHelper {
-    var list = Observable.fromArray(Student("Lesya", 20),
+    var list = Arrays.asList(Student("Lesya", 20),
             Student("Aina", 19),
             Student("Dima", 19),
             Student("Emiliya", 21),
